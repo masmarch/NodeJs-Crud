@@ -1,0 +1,17 @@
+@base_url = localhost
+@port = 3000
+
+@url = {{base_url}}:{{port}}
+
+@product_api = {{url}}/products
+
+GET {{product_api}} HTTP/1.1
+###
+POST {{product_api}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "name" : "AirPod Pro",
+    "price" : 9000,
+    "stock" : 1234
+}
