@@ -1,7 +1,9 @@
-const  productService = require('../services/product.service')
+const productService = require('../services/product.service')
+const multer = require('multer')
+const multerConfig = require('../configs/multer')
+const upload = multer(multerConfig.config).single(multerConfig.keyUpload)
 
 exports.getAllProducts = (req, res) => res.json(productService.findAll())
-
 
 exports.getPriceProducts = (req, res) => {
     const {min, max} = req.query
@@ -17,15 +19,29 @@ exports.getOneProducts = (req, res) => {
     }
 }
 
-exports.addProduct = (req, res) => {res.status(201).json(productService.add(req.body))}
+exports.addProduct = (req, res) => {
+    upload(req, res, (error) => {
+        if (error) {
+            console.log(`error: ${JSON.stringify(error)}`)
+            return res.status(500).json({ message: error.message })
+        }
+        return res.status(201).json(productService.add(req.body, req.file))
+    })
+}
 
 exports.updateProduct = (req, res) => {
-    const result = productService.update(req.params.id, req.body)
-    if (result) {
-        res.json(result)
-    } else {
-        res.status(404).json({})
-    }
+    upload(req, res, (error) => {
+        if (error) {
+            console.log(`error: ${JSON.stringify(error)}`)
+            return res.status(500).json({ message: error.message })
+        }
+        const result = productService.update(req.params.id, req.body, req,file)
+        if (result) {
+            res.json(result)
+        } else {
+            res.status(404).json({})
+        }
+    })
 }
 
 exports.deleteProduct = (req, res) => {
