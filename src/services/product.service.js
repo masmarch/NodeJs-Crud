@@ -21,8 +21,8 @@ exports.findByPrice = (min, max) => products.filter((item) => item.price >= min 
 
 exports.findById = (id) => products.filter((item) => item.id == id)
 
-exports.add = (product, file) => {
-    count += 1    
+exports.add = (product, file) => {    
+    count += 1
     const productCreated = new Product(count, product.name, file ? file.filename : "", product.price, product.stock)
     products.push(productCreated)
     return productCreated

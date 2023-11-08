@@ -25,6 +25,7 @@ exports.addProduct = (req, res) => {
             console.log(`error: ${JSON.stringify(error)}`)
             return res.status(500).json({ message: error.message })
         }
+        console.log(req.file)
         return res.status(201).json(productService.add(req.body, req.file))
     })
 }
@@ -35,7 +36,7 @@ exports.updateProduct = (req, res) => {
             console.log(`error: ${JSON.stringify(error)}`)
             return res.status(500).json({ message: error.message })
         }
-        const result = productService.update(req.params.id, req.body, req,file)
+        const result = productService.update(req.params.id, req.body, req.file)
         if (result) {
             res.json(result)
         } else {

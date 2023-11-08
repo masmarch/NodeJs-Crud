@@ -5,10 +5,10 @@ exports.keyUpload = 'image'
 
 exports.config = {
     // save date via storage
-    Storage: multer.diskStorage({
+    storage: multer.diskStorage({
         // create destination file
         destination: (req, file, next) => {
-            const folder = './images/'
+            const folder = './images/'            
             //  if have no folde, it will create asap
             if (!fs.existsSync(folder)) {
                 fs.mkdirSync(folder)
@@ -17,17 +17,16 @@ exports.config = {
         },
         // config file name , when save
         filename: (req, file, next) => {
-            const ext = file.mimetype.split('./')[1] // get surname file (import)
+            const ext = file.mimetype.split('/')[1] // get surname file (import)
             next(null, `${file.fieldname}-${Date.now()}.${ext}`) // change name file and join file surname
         }
     }),
     // set limit image ( byte )
     limits: {
-        fieldSize: 1024 * 1024 * 5,
+        fieldSize: 1024 * 1024 * 10,
     },
     fileFilter(req, file, next) {
-        console.log(file.mimetype)
-        // const image = file.mimetype.startWith('image/')
+        const image = file.mimetype.startsWith('image/')
         if(image) { // check image only
             next(null, true)
         } else {
