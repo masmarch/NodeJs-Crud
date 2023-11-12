@@ -1,3 +1,5 @@
+const productRepository = require('../repositories/product.repository')
+
 class Product {
     constructor (id, name, image, price, stock) {
         this.id = id
@@ -15,7 +17,7 @@ const products = [
 ]
 let count = products.length
 
-exports.findAll = () => products
+exports.findAll = async () => await productRepository.findAll()
 
 exports.findByPrice = (min, max) => products.filter((item) => item.price >= min && item.price <= max)
 

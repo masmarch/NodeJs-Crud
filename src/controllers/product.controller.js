@@ -3,7 +3,7 @@ const multer = require('multer')
 const multerConfig = require('../configs/multer')
 const upload = multer(multerConfig.config).single(multerConfig.keyUpload)
 
-exports.getAllProducts = (req, res) => res.json(productService.findAll())
+exports.getAllProducts = async (req, res) => res.json(await productService.findAll())
 
 exports.getPriceProducts = (req, res) => {
     const {min, max} = req.query
